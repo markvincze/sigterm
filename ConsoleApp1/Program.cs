@@ -21,6 +21,8 @@ namespace ConsoleApp1
                 ended.Wait();
             }; 
 
+            Console.CancelKeyPress += (sender, e) => Console.WriteLine("Exiting");
+
             System.Console.WriteLine("Waiting for signals");
             starting.Wait();
 
