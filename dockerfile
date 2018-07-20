@@ -1,15 +1,12 @@
 FROM microsoft/dotnet:2.1.300-sdk AS build
-WORKDIR /ConsoleApp1
-
-# Copy csproj and restore as distinct layers
-COPY *.csproj ./
-RUN dotnet restore
+WORKDIR /app
 
 # Copy everything else and build
-COPY . ./
+COPY ConsoleApp1/* ./
+RUN dotnet restore
 RUN dotnet publish -c Release -o out
 
 FROM microsoft/dotnet:aspnetcore-runtime AS runtime
-WORKDIR /ConsoleApp1
-COPY --from=build /ConsoleApp1/out .
+WORKDIR /app
+COPY --from=build /app/out .
 ENTRYPOINT ["dotnet", "./ConsoleApp1.dll"]
